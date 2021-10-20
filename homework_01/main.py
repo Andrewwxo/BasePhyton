@@ -55,7 +55,7 @@ def filter_numbers():
     <<< [2, 4]
     """
     
- if __name__ == '__main__':
+if __name__ == '__main__':
     numbers = (1, 2, 5, 7,)
     power_numbers(numbers)
 

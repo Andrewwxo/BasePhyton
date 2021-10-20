@@ -17,7 +17,7 @@ EVEN = "even"
 PRIME = "prime"
 
 
-def filter_numbers():
+def filter_numbers(Numbers, filter_types):
     
     list = []
 

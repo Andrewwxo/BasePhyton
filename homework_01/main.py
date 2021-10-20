@@ -19,20 +19,20 @@ PRIME = "prime"
 
 def filter_numbers(Numbers, filter_types):
     
-    list = []
+    out_list = []
 
     if filter_types == ODD:
         for i in Numbers:
             if i % 2 != 0:
                 list.append(i)
-        print("Odd numbers: ", list)
+        print("Odd numbers: ", out_list )
 
     elif filter_types == EVEN:
         for i in Numbers:
             if i % 2 == 0:
                 list.append(i)
 
-        print("Even numbers: ", list)
+        print("Even numbers: ", out_list )
 
     elif filter_types == PRIME:
         for i in Numbers:
@@ -42,7 +42,9 @@ def filter_numbers(Numbers, filter_types):
                     k += 1
             if k <= 1:
                 list.append(i)
-        print("Prime numbers: ", list)
+        print("Prime numbers: ", out_list )
+        
+    return out_list
 
     """
     функция, которая на вход принимает список из целых чисел,

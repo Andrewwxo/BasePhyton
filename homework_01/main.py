@@ -37,6 +37,8 @@ def filter_numbers(Numbers, filter_types):
 
     elif filter_types == PRIME:
         for i in Numbers:
+            if i < 2:
+                continue
             k = 0
             for j in range(2, i + 1):
                 if i % j == 0:

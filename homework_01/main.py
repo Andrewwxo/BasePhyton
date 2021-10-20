@@ -4,7 +4,7 @@
 """
 
 
-def power_numbers(Numbers):
+def power_numbers(*Numbers):
     square_list = []
     for i in Numbers:
         square_list.append(i ** 2)
@@ -25,13 +25,13 @@ def filter_numbers(Numbers, filter_types):
     if filter_types == ODD:
         for i in Numbers:
             if i % 2 != 0:
-                list.append(i)
+                out_list.append(i)
         print("Odd numbers: ", out_list )
 
     elif filter_types == EVEN:
         for i in Numbers:
             if i % 2 == 0:
-                list.append(i)
+                out_list.append(i)
 
         print("Even numbers: ", out_list )
 
@@ -42,7 +42,7 @@ def filter_numbers(Numbers, filter_types):
                 if i % j == 0:
                     k += 1
             if k <= 1:
-                list.append(i)
+                out_list.append(i)
         print("Prime numbers: ", out_list )
         
     return out_list

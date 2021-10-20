@@ -4,11 +4,12 @@
 """
 
 
-def power_numbers():
+def power_numbers(Numbers):
     square_list = []
     for i in Numbers:
         square_list.append(i ** 2)
     print("Square of numbers: ", square_list)
+    return square_list
 
 
 # filter types

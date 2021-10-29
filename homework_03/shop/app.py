@@ -13,6 +13,11 @@ def read_root():
     return {"message": "Hi"}
 
 
+@app.get("/ping")
+def ping():
+    return {"message": "pong"}
+
+
 @app.post("/items/")
 def create_item(data: dict = Body(...)):
     return {

@@ -16,10 +16,10 @@ from sqlalchemy import (
     String,
     ForeignKey,
 )
-from sqlalchemy.orm import relationship, scoped_session, sessionmaker, joinedload
+from sqlalchemy.orm import relationship, scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-PG_CONN_URI = os.environ.get("SQLALCHEMY_PG_CONN_URI") or "postgresql+asyncpg://postgres:password@localhost/postgres"
+PG_CONN_URI = os.environ.get("SQLALCHEMY_PG_CONN_URI") or "postgresql+asyncpg://postgres:12345678@localhost/postgres"
 
 engine = create_engine("sqlite:///homework_04.db", echo=True)
 Base = declarative_base(bind=engine)
@@ -89,17 +89,22 @@ def get_user(username: str) -> User:
     return user
 
 
-def create_post(author: User, title: str) -> Post:
-    """
-    :param author:
-    :param title:
-    :return: Post
-    """
+def create_post(author: User, title: str, body: str, author_id: int ) -> Post:
+   """
+   :param author:
+   :param title:
+   :param body:
+   :param author_id:
+   :return: post
+   """
+
     session = Session()
 
     post = Post(
         title=title,
         author=author,
+        body=body,
+        author_id=author_id
     )
     session.add(post)
     session.commit()
@@ -107,47 +112,11 @@ def create_post(author: User, title: str) -> Post:
     return post
 
 
-def get_posts_by_author() -> list[Post]:
-    session = Session()
-
-    posts = (
-        session
-        .query(Post)
-        .join(User)
-        .filter(
-            User.username == "Sam",
-            Post.title.ilike("%lesson%"),
-        )
-        .options(joinedload(Post.author).joinedload(User.posts))
-        .all()
-    )
-
-    for post in posts:
-        author: User = post.author
-
-    session.close()
-
-    return posts
-
-
 def main():
     Base.metadata.create_all()
-    # create_user("john")
     create_user("Sam Smith", "Sam", "sam1@mail.com")
-
-    # user_john = get_user("john")
     user_sam = get_user("Sam")
-    # print(user_john)
-    # print(user_sam)
-
-    # create_post(user_john, "Flask lesson")
-    create_post(user_sam, "Django lesson")
-    # create_post(user_john, "Flask demo")
-
-    # get_posts_by_author()
-    # create_tags()
-    # add_tags_to_posts()
-    # fetch_posts_and_users_by_tags()
+    create_post(user_sam, "First lesson", "It's a short story", 1)
 
 
 if __name__ == '__main__':

@@ -3,25 +3,12 @@
 """
 
 import asyncio
-from dataclasses import dataclass
 from aiohttp import ClientSession
-from homework_04.main import async_session
-from models import User
+from homework_04.models import async_session, User, Post
+
 
 USERS_DATA_URL = "https://jsonplaceholder.typicode.com/users"
 POSTS_DATA_URL = "https://jsonplaceholder.typicode.com/posts"
-
-
-@dataclass
-class Resource:
-    name: str
-    url: str
-
-
-RESOURCE = [
-    Resource("Users", "https://jsonplaceholder.typicode.com/users"),
-    Resource("Posts", "https://jsonplaceholder.typicode.com/posts"),
-]
 
 
 async def fetch_json(url: str):
@@ -30,24 +17,44 @@ async def fetch_json(url: str):
             return await response.json()
 
 
-async def run_main():
-    for resource in RESOURCE:
-        res = await fetch_json(resource.url)
-        async with async_session() as session:
-            async with session.begin():
-                for user in res:
-                    user = User(
-                        user_id=user["id"],
-                        name=user["name"],
-                        username=user["username"],
-                        email=user["email"])
-                    session.add(user)
+async def fetch_data():
+    users_data, posts_data = await asyncio.gather(
+        fetch_users_data(),
+        fetch_posts_data(),
+    )
+    async with async_session() as session:
+        async with session.begin():
+            for user in users_data:
+                user = User(
+                    user_id=user["id"],
+                    name=user["name"],
+                    username=user["username"],
+                    email=user["email"]
+                )
+                session.add(user)
+            for post in posts_data:
+                post = Post(
+                    user_id=post["userId"],
+                    title=post["title"],
+                    body=post["body"],
+                    id=post["id"]
+                )
+                session.add(post)
 
 
-def main():
-    asyncio.run(run_main())
+async def fetch_users_data():
+    return await fetch_json(USERS_DATA_URL)
 
 
-if __name__ == '__main__':
-    main()
+async def fetch_posts_data():
+    return await fetch_json(POSTS_DATA_URL)
 
+
+# #
+# def main():
+#     asyncio.run(fetch_data())
+#
+#
+# if __name__ == '__main__':
+#     main()
+#

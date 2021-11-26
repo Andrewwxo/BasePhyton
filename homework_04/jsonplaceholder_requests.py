@@ -50,11 +50,10 @@ async def fetch_posts_data():
     return await fetch_json(POSTS_DATA_URL)
 
 
-# #
-# def main():
-#     asyncio.run(fetch_data())
-#
-#
-# if __name__ == '__main__':
-#     main()
-#
+def main():
+    asyncio.run(fetch_data())
+
+
+if __name__ == '__main__':
+    main()
+

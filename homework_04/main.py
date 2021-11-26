@@ -12,7 +12,7 @@
   (используйте полученные из запроса данные, передайте их в функцию для добавления в БД)
 - закрытие соединения с БД
 """
-
+import sys
 import asyncio
 from homework_04.models import Base, engine
 from jsonplaceholder_requests import fetch_data
@@ -31,6 +31,9 @@ async def async_main():
 
 
 def main():
+    if sys.platform == "win32":
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
     asyncio.run(async_main())
 
 

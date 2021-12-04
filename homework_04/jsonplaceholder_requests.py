@@ -26,7 +26,7 @@ async def fetch_data():
         async with session.begin():
             for user in users_data:
                 user = User(
-                    user_id=user["id"],
+                    id=user["id"],
                     name=user["name"],
                     username=user["username"],
                     email=user["email"]

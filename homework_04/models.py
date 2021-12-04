@@ -8,7 +8,6 @@
 создайте связи relationship между моделями: User.posts и Post.user
 """
 import os
-
 from sqlalchemy import (
     Column,
     Integer,
@@ -29,21 +28,22 @@ async_session = sessionmaker(
     class_=AsyncSession,
 )
 
+Session = async_session
 Base = declarative_base(bind=engine)
 
 
 class User(Base):
     __tablename__ ="users"
 
-    user_id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)
     name = Column(String, unique=True)
     username = Column(String, unique=True)
     email = Column(String, unique=True)
 
-    posts = relationship("Post", back_populates="author")
+    posts = relationship("Post", back_populates="user")
 
     def __str__(self):
-        return f"{self.__class__.__name__}(user_id={self.user_id}," \
+        return f"{self.__class__.__name__}(id={self.user_id}," \
                f"name={self.name!r}, " \
                f"username={self.username!r}, " \
                f"email={self.email})"
@@ -55,12 +55,12 @@ class User(Base):
 class Post(Base):
     __tablename__ = "posts"
 
-    user_id = Column(Integer, ForeignKey(User.user_id))
+    user_id = Column(Integer, ForeignKey(User.id))
     title = Column(String, nullable=False, default="", server_default="")
     body = Column(Text, nullable=False, default="", server_default="" )
     id = Column(Integer, primary_key=True)
 
-    author = relationship(User, back_populates="posts")
+    user = relationship(User, back_populates="posts")
 
     def __str__(self):
         return f"{self.__class__.__name__}(user_id={self.user_id}, " \

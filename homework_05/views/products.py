@@ -42,6 +42,6 @@ def product_add():
     return redirect(url_for("product_app.list"))
 
 
-@product_app.route("/about/", endpoint="about")
-def about():
-    return render_template("products/about.html", about=about)
+# @product_app.route("/about/", endpoint="about")
+# def about():
+#     return render_template("products/about.html", about=about)
